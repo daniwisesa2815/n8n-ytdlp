@@ -25,18 +25,16 @@ def clip():
 
     try:
         download_cmd = [
-            'yt-dlp',
-            '--no-playlist',
-            '--format', 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
-            '--download-sections', f'*{start}-{end}',
-            '--force-keyframes-at-cuts',
-            # Cookies & headers untuk bypass YouTube block
-            '--add-header', 'User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            '--add-header', 'Accept-Language:en-US,en;q=0.9',
-            '--extractor-args', 'youtube:player_client=web,mweb',
-            '-o', input_file,
-            youtube_url
-        ]
+    'yt-dlp',
+    '--no-playlist',
+    '--format', 'best[ext=mp4]/best',
+    '--download-sections', f'*{start}-{end}',
+    '--force-keyframes-at-cuts',
+    '--extractor-args', 'youtube:player_client=ios',
+    '--add-header', 'User-Agent:com.google.ios.youtube/19.29.1 (iPhone16,2; U; CPU iOS 17_5_1 like Mac OS X)',
+    '-o', input_file,
+    youtube_url
+]
         result = subprocess.run(download_cmd, check=True, timeout=300, capture_output=True, text=True)
 
     except subprocess.TimeoutExpired:
