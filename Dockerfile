@@ -1,8 +1,16 @@
-FROM n8nio/n8n:latest
+FROM python:3.11-slim
 
-USER root
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apk add --no-cache python3 py3-pip ffmpeg && \
-    pip3 install yt-dlp --break-system-packages
+WORKDIR /app
 
-USER node
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY app.py .
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
